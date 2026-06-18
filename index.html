@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cape Town House Search</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d2e;
+    --surface2: #252840;
+    --border: #2e3250;
+    --text: #e2e4f0;
+    --muted: #7b7f9e;
+    --accent: #6c8aff;
+    --accent2: #a78bfa;
+    --green: #22c55e;
+    --amber: #f59e0b;
+    --red: #ef4444;
+    --tag-bg: #1e2235;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  header h1 { font-size: 18px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; }
+  header h1 span { color: var(--accent); }
+  .header-meta { font-size: 12px; color: var(--muted); }
+
+  .controls {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+  .controls label { font-size: 12px; color: var(--muted); margin-right: 4px; }
+  select, input[type=range], input[type=text] {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 13px;
+    outline: none;
+    cursor: pointer;
+  }
+  select:focus, input[type=text]:focus { border-color: var(--accent); }
+  .filter-group { display: flex; align-items: center; gap: 6px; }
+  .toggle-sold {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--muted);
+    margin-left: auto;
+  }
+  .toggle-sold input { cursor: pointer; accent-color: var(--accent); }
+  .count-badge {
+    background: var(--accent);
+    color: #fff;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    margin-left: 8px;
+  }
+
+  main { padding: 20px 24px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    display: flex;
+    flex-direction: column;
+  }
+  .card:hover { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent)20; }
+  .card.sold { opacity: 0.55; }
+
+  .card-header {
+    padding: 14px 16px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .card-area { font-size: 13px; font-weight: 700; color: var(--text); }
+  .card-address { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .card-price {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  .card-badges {
+    padding: 0 16px 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--tag-bg);
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+  .badge.yes { color: var(--green); border-color: var(--green)40; background: var(--green)10; }
+  .badge.no { color: var(--red); border-color: var(--red)20; }
+  .badge.unknown { color: var(--muted); }
+  .badge.status-new { color: var(--green); border-color: var(--green)40; background: var(--green)10; }
+  .badge.status-under_offer { color: var(--amber); border-color: var(--amber)40; background: var(--amber)10; }
+  .badge.status-sold { color: var(--red); border-color: var(--red)40; background: var(--red)10; }
+
+  .card-notes {
+    padding: 0 16px 10px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  .card-score {
+    padding: 4px 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .score-label { font-size: 11px; color: var(--muted); }
+  .score-bar { flex: 1; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+  .score-num { font-size: 11px; font-weight: 700; color: var(--accent2); min-width: 18px; text-align: right; }
+
+  .card-actions {
+    padding: 12px 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .status-select {
+    flex: 1;
+    font-size: 12px;
+    padding: 5px 8px;
+  }
+  .view-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid var(--accent)40;
+    border-radius: 6px;
+    background: var(--accent)10;
+    white-space: nowrap;
+    transition: background 0.1s;
+  }
+  .view-btn:hover { background: var(--accent)20; }
+
+  .notes-area {
+    padding: 0 16px 12px;
+    display: none;
+  }
+  .notes-area.open { display: block; }
+  .notes-input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 6px;
+    padding: 7px 10px;
+    font-size: 12px;
+    resize: vertical;
+    min-height: 54px;
+    font-family: inherit;
+    outline: none;
+  }
+  .notes-input:focus { border-color: var(--accent); }
+  .notes-row { display: flex; gap: 6px; margin-top: 6px; }
+  .save-btn {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 12px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: opacity 0.1s;
+  }
+  .save-btn:hover { opacity: 0.85; }
+  .notes-toggle {
+    font-size: 12px;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 5px 8px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: color 0.1s;
+  }
+  .notes-toggle:hover { color: var(--text); }
+
+  .agent-block {
+    padding: 0 16px 10px;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .agent-block strong { color: var(--text); }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .stats-bar {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 12px 24px;
+    background: var(--surface)80;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .stat { display: flex; align-items: center; gap: 5px; }
+  .stat-dot { width: 7px; height: 7px; border-radius: 50%; }
+  .stat-dot.green { background: var(--green); }
+  .stat-dot.amber { background: var(--amber); }
+  .stat-dot.red { background: var(--red); }
+</style>
+</head>
+<body>
+<div id="auth-overlay" style="position:fixed;inset:0;background:#0f1117;display:flex;align-items:center;justify-content:center;z-index:9999;">
+  <div style="background:#1a1d2e;border:1px solid #2e3250;border-radius:12px;padding:36px 40px;text-align:center;min-width:300px;">
+    <div style="font-size:24px;margin-bottom:8px;">🏡</div>
+    <h2 style="font-size:16px;font-weight:700;color:#e2e4f0;margin-bottom:6px;">Cape Town House Search</h2>
+    <p style="font-size:13px;color:#7b7f9e;margin-bottom:24px;">Enter password to continue</p>
+    <input id="auth-input" type="password" placeholder="Password"
+      style="width:100%;padding:10px 14px;background:#252840;border:1px solid #2e3250;border-radius:8px;color:#e2e4f0;font-size:14px;outline:none;margin-bottom:12px;"
+      onkeydown="if(event.key==='Enter')checkAuth()">
+    <button onclick="checkAuth()"
+      style="width:100%;padding:10px;background:#6c8aff;border:none;border-radius:8px;color:#fff;font-size:14px;font-weight:600;cursor:pointer;">
+      Enter
+    </button>
+    <p id="auth-error" style="color:#ef4444;font-size:12px;margin-top:10px;display:none;">Incorrect password</p>
+  </div>
+</div>
+<script>
+  (function(){
+    if(sessionStorage.getItem('ct_auth')==='1'){document.getElementById('auth-overlay').style.display='none';}
+  })();
+  function checkAuth(){
+    if(document.getElementById('auth-input').value==='JanoydCT'){
+      sessionStorage.setItem('ct_auth','1');
+      document.getElementById('auth-overlay').style.display='none';
+    } else {
+      document.getElementById('auth-error').style.display='block';
+      document.getElementById('auth-input').value='';
+      document.getElementById('auth-input').focus();
+    }
+  }
+</script>
+
+<header>
+  <div>
+    <h1>Cape Town <span>House Search</span></h1>
+    <div class="header-meta">Budget R4M – R5.5M · 3+ bed · Garden · Southern Suburbs</div>
+  </div>
+  <div id="updated-meta" class="header-meta"></div>
+</header>
+
+<div class="stats-bar" id="stats-bar"></div>
+
+<div class="controls">
+  <div class="filter-group">
+    <label>Area</label>
+    <select id="filter-area">
+      <option value="">All areas</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label>My status</label>
+    <select id="filter-status">
+      <option value="">All</option>
+      <option value="unseen">Unseen</option>
+      <option value="interested">Interested</option>
+      <option value="seen">Seen</option>
+      <option value="rejected">Rejected</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label>Max price</label>
+    <select id="filter-price">
+      <option value="">Any</option>
+      <option value="4000000">Up to R4M</option>
+      <option value="4500000">Up to R4.5M</option>
+      <option value="5000000">Up to R5M</option>
+      <option value="5500000">Up to R5.5M</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label>Garage</label>
+    <select id="filter-garage">
+      <option value="">Any</option>
+      <option value="yes">Yes</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label>Flatlet</label>
+    <select id="filter-flatlet">
+      <option value="">Any</option>
+      <option value="yes">Yes</option>
+    </select>
+  </div>
+  <label class="toggle-sold">
+    <input type="checkbox" id="show-sold"> Show sold
+  </label>
+</div>
+
+<main>
+  <div class="grid" id="listings-grid"></div>
+  <div class="empty-state" id="empty-state" style="display:none">No listings match the current filters.</div>
+</main>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const CSV_DATA = `id,url,address,area,price,bedrooms,bathrooms,garage,flatlet,garden,agent_name,agent_phone,agent_email,listing_status,status,notes,date_added,score
+1,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/pinelands/T5492956,unknown,Pinelands,4250000,5,5,yes,yes,yes,Rawson Property Group,,,new,unseen,"5-bed + granny flat. 759m². Independent flatlet with own access. Fireplace. Inverter. 8 parking. Leafy pocket. Listed 20 May 2026.",2026-06-18,9
+2,https://www.property24.com/for-sale/rondebosch/cape-town/western-cape/8682/115497230,6 Grove Road,Rondebosch,4200000,3,unknown,unknown,unknown,yes,unknown,,,new,unseen,"Edwardian period cottage. Very pretty garden. Well maintained.",2026-06-18,8
+3,https://www.property24.com/for-sale/wynberg-upper/cape-town/western-cape/10102/116765856,unknown,Wynberg Upper,4900000,3,unknown,unknown,unknown,yes,Rawson Properties Constantia,,,new,unseen,"Double plot with established garden. Real grass and trees.",2026-06-18,7
+4,https://www.property24.com/for-sale/pinelands/cape-town/western-cape/8017/116495854,5 Stratford Way,Pinelands,4495000,3,unknown,unknown,unknown,yes,unknown,,,new,unseen,"Charming family home on generous corner plot. Patio doors to pool. Garden.",2026-06-18,7
+5,https://www.property24.com/for-sale/rosebank/cape-town/western-cape/8683/116999638,unknown,Rosebank,5525000,3,2,yes,yes,yes,Natalie Parkes - Quay 1 International Realty,,,under_offer,unseen,"Flatlet with private entrance. Garden + pool. GR4 zoning (dev potential). 678m². Walk to Rondebosch Common. Near top schools. Listed Mar 2026.",2026-06-18,8
+6,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/pinelands/T5458064,unknown,Pinelands,4650000,3,2,yes,unknown,yes,Harcourts,,,under_offer,unseen,"Highly sought-after Glens area. 833m². Exclusive mandate.",2026-06-18,6
+7,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/pinelands/T5449023,unknown,Pinelands,4950000,3,2,yes,unknown,yes,Harcourts,,,under_offer,unseen,"Heart of Pinelands. Walking distance to Pinelands North Primary. 773m². Exclusive mandate.",2026-06-18,6
+8,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/pinelands/T5510604,unknown,Pinelands,4395000,4,1,yes,unknown,yes,eXp South Africa,,,under_offer,unseen,"Sole and exclusive mandate. 818m². Rare opportunity in Pinelands.",2026-06-18,6
+9,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/pinelands/T5513057,unknown,Pinelands,5400000,4,3,no,no,yes,unknown,,,new,unseen,"4 bed 3 bath. 892m². Pool + established garden. Large storage area (cottage conversion potential). 4 open parking. Aircon. Listed 8 Jun 2026.",2026-06-18,8
+10,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/pinelands/T5470355,unknown,Pinelands,5250000,4,2,yes,yes,yes,unknown,,,under_offer,unseen,"4 bed 2 bath. 818m². Garage + carport + 5 covered parking. Garden/patio. Guest suite en-suite. Flatlet. Study. Listed 28 Apr 2026.",2026-06-18,7
+11,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/rondebosch/3-st-pauls-crescent/T5397469,3 St Pauls Crescent,Rondebosch,4200000,3,2,yes,unknown,unknown,Chas Everitt,,,under_offer,unseen,"3 bed. 137m² erf (townhouse). North-facing. Sole mandate. Rondebosch Village location. Small plot.",2026-06-18,4
+12,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/rondebosch/rondebosch-east/18-7th-avenue/T5420302,18 7th Avenue,Rondebosch East,4695000,4,4,unknown,unknown,yes,RE/MAX,,,new,unseen,"4 bed 4 bath. 586m². Pool. Access from 2 avenues. Modern.",2026-06-18,6
+13,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/rondebosch/42-stuart-road/T5422309,42 Stuart Road,Rondebosch,4800000,4,2,unknown,unknown,unknown,Seeff,,,under_offer,unseen,"4 bed 2 bath. 535m². Sole mandate. Prime position. Upgrade opportunity.",2026-06-18,6
+14,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/rondebosch/16-belvedere-road/T5443987,16 Belvedere Road,Rondebosch,5500000,4,2,unknown,unknown,unknown,Seeff,,,under_offer,unseen,"4 bed 2 bath. 547m². Walk to Belvedere Square + Keurboom Park + top schools.",2026-06-18,7
+15,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/rondebosch/21-saxon-road/T5374666,21 Saxon Road,Rondebosch,4500000,3,2,yes,unknown,unknown,Seeff,,,sold,unseen,"3 bed 2 bath. 432m². Sold - for reference/price benchmarking.",2026-06-18,5
+16,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/rondebosch/rondebosch-east/T5410046,unknown,Rondebosch East,4695000,4,4,unknown,unknown,unknown,Real Realty,,,new,unseen,"4 bed 4 bath. 586m². May be same property as T5420302 (dual-listed - check). Modern + classy.",2026-06-18,5
+17,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/rondebosch/rondebosch-east/T5484622,unknown,Rondebosch East,4900000,4,3,unknown,unknown,unknown,RE/MAX,,,new,unseen,"4 bed 3 bath. 670m². Versatile opportunity on Kromboom Road. On show 21 Jun 2026.",2026-06-18,6
+18,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/rondebosch/T5477385,unknown,Rondebosch,5250000,3,2,yes,unknown,yes,Lew Geffen Sotheby's International Realty,,,new,unseen,"3 bed 2 bath. 241m² erf. Freehold in secure complex with communal pool. Sole mandate.",2026-06-18,5
+19,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/plumstead/9-plympton/T5432945,9 Plympton,Plumstead,4200000,3,1,unknown,unknown,yes,Harcourts,,,under_offer,unseen,"3 bed. 697m² erf. Well maintained family home. Large plot - good value.",2026-06-18,7
+20,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/plumstead/T5415625,unknown,Plumstead,4995000,5,4,unknown,unknown,unknown,RE/MAX,,,under_offer,unseen,"5 bed 4 bath. 631m². Double storey. Viewings by appointment.",2026-06-18,6
+21,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/plumstead/T5410158,unknown,Plumstead,5200000,3,3,yes,unknown,yes,Real Realty,,,new,unseen,"3 bed 3 bath. 255m² erf. Double storey. Lush private garden + pool.",2026-06-18,6
+22,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/claremont/7-hellenburgh-road/T5283161,7 Hellenburgh Road,Claremont,5495000,3,4,unknown,unknown,yes,Pam Golding Properties,,,under_offer,unseen,"3 bed 4 bath. 508m². Heritage home. Beautifully preserved. Exclusive mandate.",2026-06-18,7
+23,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/claremont/24-livingstone-road/T5435932,24 Livingstone Road,Claremont,5295000,3,3,yes,unknown,yes,Lew Geffen Sotheby's International Realty,,,under_offer,unseen,"3 bed 3 bath. 403m². Charming family home bordering Lynfrae. Character wooden floors.",2026-06-18,6
+24,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/claremont/T5356411,unknown,Claremont,5195000,3,2,yes,yes,unknown,Tyson Properties,,,under_offer,unseen,"3 bed. 787m² erf. Option to incorporate flatlet (4 bed + 2 bath + separate entrance). Work-from-home potential.",2026-06-18,7
+25,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/wynberg/wynberg-upper/4-eleve/6-mountain-view-road/T5295684,4 Eleve - 6 Mountain View Road,Wynberg Upper,4995000,3,4,yes,unknown,yes,Pam Golding Properties,,,under_offer,unseen,"3 bed 3.5 bath. 983m² erf. Boutique townhouse in private gated estate. Slopes of Upper Wynberg bordering Constantia.",2026-06-18,7
+26,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/lakeside/T5455662,unknown,Lakeside,4395000,3,2,yes,unknown,unknown,RM Realtors,,,under_offer,unseen,"3 bed 2 bath. 245m². Recently renovated. Exceptional mountain views.",2026-06-18,5
+27,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/lakeside/6-rooikrans-road/T5482599,6 Rooikrans Road,Lakeside,4750000,3,2,yes,unknown,yes,Seeff,,,under_offer,unseen,"3 bed 2 bath. 495m². North facing. Lovely garden and patio.",2026-06-18,7
+28,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/lakeside/0-lakeside/22-lincoln-road/T5410086,22 Lincoln Road,Lakeside,4999000,4,4,yes,unknown,yes,Real Realty,,,new,unseen,"4 bed 4 bath. 372m². Near Muizenberg + False Bay coastline. Versatile property.",2026-06-18,6
+29,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/lakeside/0-lakeside/53-springwood-circle/T5413528,53 Springwood Circle,Lakeside,5250000,3,2,yes,unknown,unknown,Real Realty,,,under_offer,unseen,"3 bed 2 bath. 390m². Klein Wassenaar pocket. Immaculate and stylish.",2026-06-18,6
+30,https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/kenilworth/kenilworth-upper/T4055741,unknown,Kenilworth Upper,5500000,3,3,unknown,unknown,unknown,Lew Geffen Sotheby's International Realty,,,under_offer,unseen,"3 bed. 466m². Sole mandate. Delightful single storey home in Upper Kenilworth.",2026-06-18,6
+31,https://southernsuburbs.seeff.com/results/residential/for-sale/cape-town/claremont/house/3142310/6-columbus-road/,6 Columbus Road,Claremont,5300000,3,2,unknown,unknown,unknown,Seeff,,,under_offer,unseen,"3 bed 2 bath. 162m² house. 4 parking. Sole mandate. Via Seeff Southern Suburbs.",2026-06-18,6
+32,https://southernsuburbs.seeff.com/results/residential/for-sale/cape-town/claremont/house/3165526/90-queen-victoria-road/,90 Queen Victoria Road,Claremont,5200000,3,2,unknown,unknown,unknown,Seeff,,,under_offer,unseen,"3 bed 2 bath. 146m² house. 4 parking. Sole mandate. Via Seeff Southern Suburbs.",2026-06-18,6
+33,https://www.chaseveritt.co.za/results/residential/for-sale/cape-town/pinelands/house/3027678/,unknown,Pinelands,5500000,4,3,unknown,unknown,unknown,Chas Everitt,,,under_offer,unseen,"4 bed 3 bath. 186m². 2 parking. Sole mandate. Top of budget. Via Chas Everitt.",2026-06-18,6`;
+
+// ── PARSE CSV ─────────────────────────────────────────────────────────────────
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  const headers = lines[0].split(',');
+  return lines.slice(1).map(line => {
+    // handle commas in quoted fields
+    const cols = [];
+    let cur = '', inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      if (line[i] === '"') { inQ = !inQ; continue; }
+      if (line[i] === ',' && !inQ) { cols.push(cur); cur = ''; continue; }
+      cur += line[i];
+    }
+    cols.push(cur);
+    const obj = {};
+    headers.forEach((h, i) => obj[h.trim()] = (cols[i] || '').trim());
+    return obj;
+  });
+}
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let listings = parseCSV(CSV_DATA);
+
+// Load overrides from localStorage
+const saved = JSON.parse(localStorage.getItem('houseSearchOverrides') || '{}');
+listings = listings.map(l => ({ ...l, ...(saved[l.id] || {}) }));
+
+function saveOverrides() {
+  const overrides = {};
+  listings.forEach(l => {
+    overrides[l.id] = { status: l.status, notes: l.notes, listing_status: l.listing_status };
+  });
+  localStorage.setItem('houseSearchOverrides', JSON.stringify(overrides));
+}
+
+// ── FORMAT ────────────────────────────────────────────────────────────────────
+function formatPrice(p) {
+  const n = parseInt(p);
+  if (!n) return 'POA';
+  return 'R ' + (n / 1e6).toFixed(2).replace(/\.?0+$/, '') + 'M';
+}
+
+function statusLabel(s) {
+  const m = { new: 'Active', under_offer: 'Under Offer', sold: 'Sold', unknown: 'Unknown' };
+  return m[s] || s;
+}
+
+function yesNo(v) {
+  if (v === 'yes') return '<span class="badge yes">✓ Yes</span>';
+  if (v === 'no') return '<span class="badge no">✗ No</span>';
+  return '<span class="badge unknown">?</span>';
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function render() {
+  const grid = document.getElementById('listings-grid');
+  const empty = document.getElementById('empty-state');
+
+  const filterArea = document.getElementById('filter-area').value;
+  const filterStatus = document.getElementById('filter-status').value;
+  const filterPrice = document.getElementById('filter-price').value;
+  const filterGarage = document.getElementById('filter-garage').value;
+  const filterFlatlet = document.getElementById('filter-flatlet').value;
+  const showSold = document.getElementById('show-sold').checked;
+
+  let visible = listings.filter(l => {
+    if (!showSold && l.listing_status === 'sold') return false;
+    if (filterArea && l.area !== filterArea) return false;
+    if (filterStatus && l.status !== filterStatus) return false;
+    if (filterPrice && parseInt(l.price) > parseInt(filterPrice)) return false;
+    if (filterGarage && l.garage !== filterGarage) return false;
+    if (filterFlatlet && l.flatlet !== filterFlatlet) return false;
+    return true;
+  });
+
+  // sort by score desc, then listing_status (new first)
+  visible.sort((a, b) => {
+    const statusOrder = { new: 0, under_offer: 1, unknown: 2, sold: 3 };
+    const scoreDiff = parseInt(b.score || 0) - parseInt(a.score || 0);
+    if (scoreDiff !== 0) return scoreDiff;
+    return (statusOrder[a.listing_status] || 2) - (statusOrder[b.listing_status] || 2);
+  });
+
+  if (visible.length === 0) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+  } else {
+    empty.style.display = 'none';
+    grid.innerHTML = visible.map(l => cardHTML(l)).join('');
+  }
+
+  updateStats();
+  updateAreaFilter();
+  updateMeta();
+}
+
+function cardHTML(l) {
+  const statusClass = { new: 'status-new', under_offer: 'status-under_offer', sold: 'status-sold' }[l.listing_status] || '';
+  const statusText = statusLabel(l.listing_status);
+  const scoreWidth = (parseInt(l.score || 0) / 10 * 100) + '%';
+  const addr = (l.address && l.address !== 'unknown') ? l.address : '';
+  const agentInfo = l.agent_name && l.agent_name !== 'unknown'
+    ? `<div class="agent-block"><strong>${l.agent_name}</strong>${l.agent_phone ? ' · ' + l.agent_phone : ''}${l.agent_email ? ' · <a href="mailto:'+l.agent_email+'" style="color:var(--accent)">' + l.agent_email + '</a>' : ''}</div>`
+    : '';
+
+  const userStatusOptions = ['unseen','seen','interested','rejected']
+    .map(s => `<option value="${s}" ${l.status === s ? 'selected' : ''}>${s.charAt(0).toUpperCase()+s.slice(1)}</option>`)
+    .join('');
+
+  const listingStatusOptions = [['new','Active'],['under_offer','Under Offer'],['sold','Sold'],['unknown','Unknown']]
+    .map(([v, label]) => `<option value="${v}" ${l.listing_status === v ? 'selected' : ''}>${label}</option>`)
+    .join('');
+
+  const notesVal = (l.notes || '').replace(/"/g, '&quot;');
+  const notesDisplay = l.status === 'interested' || l.status === 'rejected'
+    ? `<div class="card-notes" style="color:${l.status==='interested'?'#86efac':'#fca5a5'}">${l.notes || ''}</div>`
+    : (l.notes ? `<div class="card-notes">${l.notes}</div>` : '');
+
+  return `
+  <div class="card ${l.listing_status === 'sold' ? 'sold' : ''}" id="card-${l.id}">
+    <div class="card-header">
+      <div>
+        <div class="card-area">${l.area}</div>
+        ${addr ? `<div class="card-address">${addr}</div>` : ''}
+      </div>
+      <div class="card-price">${formatPrice(l.price)}</div>
+    </div>
+    <div class="card-badges">
+      <span class="badge ${statusClass}">${statusText}</span>
+      <span class="badge">${l.bedrooms} bed</span>
+      ${l.bathrooms !== 'unknown' ? `<span class="badge">${l.bathrooms} bath</span>` : ''}
+      <span class="badge">Garage: ${l.garage === 'yes' ? '✓' : l.garage === 'no' ? '✗' : '?'}</span>
+      <span class="badge">Flatlet: ${l.flatlet === 'yes' ? '✓' : l.flatlet === 'no' ? '✗' : '?'}</span>
+      <span class="badge yes">Garden ✓</span>
+    </div>
+    ${notesDisplay}
+    ${agentInfo}
+    <div class="card-score">
+      <span class="score-label">Score</span>
+      <div class="score-bar"><div class="score-fill" style="width:${scoreWidth}"></div></div>
+      <span class="score-num">${l.score || '—'}</span>
+    </div>
+    <div class="notes-area" id="notes-area-${l.id}">
+      <textarea class="notes-input" id="notes-input-${l.id}" placeholder="Add notes…">${notesVal}</textarea>
+      <div class="notes-row">
+        <button class="save-btn" onclick="saveNotes('${l.id}')">Save</button>
+        <button class="notes-toggle" onclick="toggleNotes('${l.id}')">Cancel</button>
+      </div>
+    </div>
+    <div class="card-actions">
+      <select class="status-select" title="My status" onchange="updateStatus('${l.id}', this.value)">
+        ${userStatusOptions}
+      </select>
+      <select class="status-select listing-status-select" title="Listing status (override)" onchange="updateListingStatus('${l.id}', this.value)" style="flex:0;min-width:110px;border-color:${l.listing_status==='sold'?'var(--red)40':l.listing_status==='under_offer'?'var(--amber)40':'var(--green)40'}">
+        ${listingStatusOptions}
+      </select>
+      <button class="notes-toggle" onclick="toggleNotes('${l.id}')">📝</button>
+      <a class="view-btn" href="${l.url}" target="_blank">View →</a>
+    </div>
+  </div>`;
+}
+
+// ── INTERACTIONS ──────────────────────────────────────────────────────────────
+function updateStatus(id, val) {
+  const l = listings.find(x => x.id === id);
+  if (l) { l.status = val; saveOverrides(); render(); }
+}
+
+function updateListingStatus(id, val) {
+  const l = listings.find(x => x.id === id);
+  if (l) { l.listing_status = val; saveOverrides(); render(); }
+}
+
+function toggleNotes(id) {
+  const area = document.getElementById('notes-area-' + id);
+  if (area) area.classList.toggle('open');
+}
+
+function saveNotes(id) {
+  const inp = document.getElementById('notes-input-' + id);
+  const l = listings.find(x => x.id === id);
+  if (l && inp) {
+    l.notes = inp.value;
+    saveOverrides();
+    toggleNotes(id);
+    render();
+  }
+}
+
+function updateAreaFilter() {
+  const sel = document.getElementById('filter-area');
+  const current = sel.value;
+  const areas = [...new Set(listings.map(l => l.area))].sort();
+  sel.innerHTML = '<option value="">All areas</option>' +
+    areas.map(a => `<option value="${a}" ${a === current ? 'selected' : ''}>${a}</option>`).join('');
+}
+
+function updateStats() {
+  const bar = document.getElementById('stats-bar');
+  const counts = { new: 0, under_offer: 0, sold: 0 };
+  listings.forEach(l => { counts[l.listing_status] = (counts[l.listing_status] || 0) + 1; });
+  bar.innerHTML = `
+    <div class="stat"><div class="stat-dot green"></div> ${counts.new || 0} active</div>
+    <div class="stat"><div class="stat-dot amber"></div> ${counts.under_offer || 0} under offer</div>
+    <div class="stat"><div class="stat-dot red"></div> ${counts.sold || 0} sold</div>
+    <div class="stat">Total: ${listings.length}</div>
+  `;
+}
+
+function updateMeta() {
+  document.getElementById('updated-meta').textContent = 'Last updated: ' + new Date().toLocaleDateString('en-ZA', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+document.getElementById('filter-area').addEventListener('change', render);
+document.getElementById('filter-status').addEventListener('change', render);
+document.getElementById('filter-price').addEventListener('change', render);
+document.getElementById('filter-garage').addEventListener('change', render);
+document.getElementById('filter-flatlet').addEventListener('change', render);
+document.getElementById('show-sold').addEventListener('change', render);
+
+render();
+</script>
+</body>
+</html>
