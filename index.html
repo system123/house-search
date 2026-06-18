@@ -356,6 +356,9 @@
   <label class="toggle-sold">
     <input type="checkbox" id="show-sold"> Show sold
   </label>
+  <label class="toggle-sold">
+    <input type="checkbox" id="show-rejected"> Show rejected
+  </label>
 </div>
 
 <main>
@@ -465,9 +468,11 @@ function render() {
   const filterFlatlet = document.getElementById('filter-flatlet').value;
   const filterListingStatus = document.getElementById('filter-listing-status').value;
   const showSold = document.getElementById('show-sold').checked;
+  const showRejected = document.getElementById('show-rejected').checked;
 
   let visible = listings.filter(l => {
     if (!showSold && l.listing_status === 'sold') return false;
+    if (!showRejected && l.status === 'rejected') return false;
     if (filterArea && l.area !== filterArea) return false;
     if (filterStatus && l.status !== filterStatus) return false;
     if (filterListingStatus && l.listing_status !== filterListingStatus) return false;
@@ -623,6 +628,7 @@ document.getElementById('filter-garage').addEventListener('change', render);
 document.getElementById('filter-flatlet').addEventListener('change', render);
 document.getElementById('filter-listing-status').addEventListener('change', render);
 document.getElementById('show-sold').addEventListener('change', render);
+document.getElementById('show-rejected').addEventListener('change', render);
 
 render();
 </script>
