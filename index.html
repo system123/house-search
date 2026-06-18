@@ -343,6 +343,16 @@
       <option value="yes">Yes</option>
     </select>
   </div>
+  <div class="filter-group">
+    <label>Listing status</label>
+    <select id="filter-listing-status">
+      <option value="">All</option>
+      <option value="new">New</option>
+      <option value="under_offer">Under offer</option>
+      <option value="unknown">Unknown</option>
+      <option value="sold">Sold</option>
+    </select>
+  </div>
   <label class="toggle-sold">
     <input type="checkbox" id="show-sold"> Show sold
   </label>
@@ -453,12 +463,14 @@ function render() {
   const filterPrice = document.getElementById('filter-price').value;
   const filterGarage = document.getElementById('filter-garage').value;
   const filterFlatlet = document.getElementById('filter-flatlet').value;
+  const filterListingStatus = document.getElementById('filter-listing-status').value;
   const showSold = document.getElementById('show-sold').checked;
 
   let visible = listings.filter(l => {
     if (!showSold && l.listing_status === 'sold') return false;
     if (filterArea && l.area !== filterArea) return false;
     if (filterStatus && l.status !== filterStatus) return false;
+    if (filterListingStatus && l.listing_status !== filterListingStatus) return false;
     if (filterPrice && parseInt(l.price) > parseInt(filterPrice)) return false;
     if (filterGarage && l.garage !== filterGarage) return false;
     if (filterFlatlet && l.flatlet !== filterFlatlet) return false;
@@ -609,6 +621,7 @@ document.getElementById('filter-status').addEventListener('change', render);
 document.getElementById('filter-price').addEventListener('change', render);
 document.getElementById('filter-garage').addEventListener('change', render);
 document.getElementById('filter-flatlet').addEventListener('change', render);
+document.getElementById('filter-listing-status').addEventListener('change', render);
 document.getElementById('show-sold').addEventListener('change', render);
 
 render();
