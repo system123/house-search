@@ -357,33 +357,6 @@
     font-size: 12px;
     color: var(--text);
   }
-  .tag-remove {
-    background: none;
-    border: none;
-    color: var(--muted);
-    cursor: pointer;
-    font-size: 14px;
-    line-height: 1;
-    padding: 0;
-  }
-  .tag-remove:hover { color: var(--red); }
-  .add-row { display: flex; gap: 8px; margin-bottom: 20px; }
-  .add-row input {
-    flex: 1;
-    font-size: 13px;
-  }
-  .add-btn {
-    padding: 7px 14px;
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-  }
-  .add-btn:hover { opacity: 0.85; }
   .modal-footer {
     padding: 14px 20px;
     border-top: 1px solid var(--border);
@@ -393,17 +366,7 @@
     align-items: center;
   }
   .export-hint { font-size: 11px; color: var(--muted); flex: 1; }
-  .export-btn {
-    padding: 8px 16px;
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .export-btn:hover { opacity: 0.85; }
+  .export-hint code { font-size: 11px; background: var(--surface2); padding: 1px 4px; border-radius: 3px; }
   .cancel-btn {
     padding: 8px 14px;
     background: var(--surface2);
@@ -471,29 +434,18 @@
       <button class="modal-tab" id="tab-sources" onclick="switchTab('sources')">Sources / Sites</button>
     </div>
     <div class="modal-body">
-      <!-- Regions tab -->
       <div id="panel-regions">
-        <div class="modal-section-label">Areas to search</div>
-        <div class="tag-list" id="regions-list"></div>
-        <div class="add-row">
-          <input type="text" id="region-input" placeholder="e.g. Bishopscourt" onkeydown="if(event.key==='Enter')addRegion()">
-          <button class="add-btn" onclick="addRegion()">Add</button>
-        </div>
+        <div class="modal-section-label">Areas being searched</div>
+        <div class="tag-list" id="regions-list"><span style="color:var(--muted);font-size:12px">Loading…</span></div>
       </div>
-      <!-- Sources tab -->
       <div id="panel-sources" style="display:none">
         <div class="modal-section-label">Portals &amp; agent sites</div>
-        <div class="tag-list" id="sources-list"></div>
-        <div class="add-row">
-          <input type="text" id="source-input" placeholder="e.g. https://www.privateproperty.co.za" onkeydown="if(event.key==='Enter')addSource()">
-          <button class="add-btn" onclick="addSource()">Add</button>
-        </div>
+        <div class="tag-list" id="sources-list"><span style="color:var(--muted);font-size:12px">Loading…</span></div>
       </div>
     </div>
     <div class="modal-footer">
-      <span class="export-hint">Save &amp; export to place in your HouseSearch folder — the daily task reads this file automatically.</span>
-      <button class="cancel-btn" onclick="closeConfigModal()">Cancel</button>
-      <button class="export-btn" onclick="exportConfig()">💾 Save &amp; Export</button>
+      <span class="export-hint">To add or remove regions/sources, ask Claude to update <code>search-config.json</code>.</span>
+      <button class="cancel-btn" onclick="closeConfigModal()">Close</button>
     </div>
   </div>
 </div>
@@ -602,7 +554,9 @@ const CSV_DATA = `id,url,address,area,price,bedrooms,bathrooms,garage,flatlet,ga
 33,https://www.chaseveritt.co.za/results/residential/for-sale/cape-town/pinelands/house/3027678/,unknown,Pinelands,5500000,4,3,unknown,unknown,unknown,Chas Everitt,,,under_offer,unseen,"4 bed 3 bath. 186m². 2 parking. Sole mandate. Top of budget. Via Chas Everitt.",2026-06-18,6
 34,https://www.property24.com/for-sale/pinelands/cape-town/western-cape/8017/116739882,unknown,Pinelands,5000000,3,1,yes,no,yes,Werner Property Agents,,,new,unseen,"3 bed 1 bath. North-facing garden with grass + trees + mountain views. Garage + extra private parking. Pool. Built-in braai. Gas stove kitchen. Low maintenance. Listed Jun 2026.",2026-06-19,8
 35,https://www.property24.com/for-sale/pinelands/cape-town/western-cape/8017/115433135,29 Parkchester Avenue,Pinelands,4500000,4,2,yes,no,yes,unknown,,,new,unseen,"4 bed 2 bath. 692m² erf. 240m² floor. Double garage with direct access + extra parking. North-facing patio and garden. Solar geyser. Water tanks. Well-established area. Listed Jan 2025.",2026-06-19,7
-36,https://www.property24.com/for-sale/rondebosch/cape-town/western-cape/8682/115582263,15 Malcom Road,Rondebosch,4500000,3,1,yes,no,unknown,Link Property People,,,new,unseen,"3 bed. 560m² erf. 93-year-old fixer-upper. Single garage (convertible to double). Near top schools + Keurboom Park + WP Cricket Club. Exclusive mandate.",2026-06-19,5`;
+36,https://www.property24.com/for-sale/rondebosch/cape-town/western-cape/8682/115582263,15 Malcom Road,Rondebosch,4500000,3,1,yes,no,unknown,Link Property People,,,new,unseen,"3 bed. 560m² erf. 93-year-old fixer-upper. Single garage (convertible to double). Near top schools + Keurboom Park + WP Cricket Club. Exclusive mandate.",2026-06-19,5
+37,https://www.property24.com/for-sale/pinelands/cape-town/western-cape/8017/116921019,18 Kingfisher Walk,Pinelands,4100000,3,1,yes,no,yes,Realtors International Welgelegen,,,new,unseen,"3 bed 1 bath. 781m² erf. Garage + adjacent workshop/studio (separate toilet – cottage conversion potential). Double carport. Pool. Vine-covered pergola. Parquet floors. Listed Jun 2026.",2026-06-21,8
+38,https://www.property24.com/for-sale/kenilworth-upper/cape-town/western-cape/14224/115131015,12A Cumnor Avenue,Kenilworth Upper,4250000,3,2,yes,no,yes,Link Property People,,,new,unseen,"3 bed 2 bath. Double garage direct access. Front and back gardens. Mountain views. JoJo tank. Secure road with monitored cameras. Walk to shops.",2026-06-21,7`;
 
 // ── PARSE CSV ─────────────────────────────────────────────────────────────────
 function parseCSV(text) {
@@ -834,46 +788,21 @@ document.getElementById('show-rejected').addEventListener('change', render);
 render();
 
 // ── SEARCH CONFIG MODAL ───────────────────────────────────────────────────────
-const DEFAULT_REGIONS = [
-  'Wynberg','Wynberg Upper','Kenilworth Upper','Claremont','Tokai','Constantia',
-  'Lakeside','Muizenberg','Kalk Bay','Rosebank','Mowbray','Rondebosch',
-  'Pinelands','Plumstead','Plumstead Upper','Gardens','Oranjezicht'
-];
-const DEFAULT_SOURCES = [
-  'https://www.property24.com',
-  'https://www.privateproperty.co.za',
-  'https://www.gumtree.co.za',
-  'https://www.pamgolding.co.za',
-  'https://www.seeff.com',
-  'https://www.sothebysrealty.co.za',
-  'https://www.chaseveritt.co.za',
-  'https://www.remax.co.za',
-  'https://www.engelvoelkers.com/south-africa',
-  'https://rawson.co.za'
-];
-
-let cfgRegions = [], cfgSources = [];
-
-function loadConfig() {
-  try {
-    const saved = JSON.parse(localStorage.getItem('search_config') || '{}');
-    cfgRegions = saved.regions || [...DEFAULT_REGIONS];
-    cfgSources = saved.sources || [...DEFAULT_SOURCES];
-  } catch(e) {
-    cfgRegions = [...DEFAULT_REGIONS];
-    cfgSources = [...DEFAULT_SOURCES];
-  }
-}
-
-function saveConfig() {
-  localStorage.setItem('search_config', JSON.stringify({ regions: cfgRegions, sources: cfgSources }));
-}
-
 function openConfigModal() {
-  loadConfig();
-  renderTags();
   document.getElementById('config-modal').classList.add('open');
   switchTab('regions');
+  fetch('search-config.json?_=' + Date.now())
+    .then(r => r.json())
+    .then(cfg => {
+      document.getElementById('regions-list').innerHTML = (cfg.regions || [])
+        .map(r => `<span class="tag-item">${r}</span>`).join('');
+      document.getElementById('sources-list').innerHTML = (cfg.sources || [])
+        .map(s => `<span class="tag-item" style="word-break:break-all">${s}</span>`).join('');
+    })
+    .catch(() => {
+      document.getElementById('regions-list').innerHTML =
+        '<span style="color:var(--muted);font-size:12px">Could not load config — push search-config.json to the repo first.</span>';
+    });
 }
 
 function closeConfigModal() {
@@ -886,45 +815,6 @@ function switchTab(tab) {
   document.getElementById('tab-regions').classList.toggle('active', tab === 'regions');
   document.getElementById('tab-sources').classList.toggle('active', tab === 'sources');
 }
-
-function renderTags() {
-  document.getElementById('regions-list').innerHTML = cfgRegions.map((r, i) =>
-    `<span class="tag-item">${r}<button class="tag-remove" onclick="removeRegion(${i})">×</button></span>`
-  ).join('');
-  document.getElementById('sources-list').innerHTML = cfgSources.map((s, i) =>
-    `<span class="tag-item" style="word-break:break-all">${s}<button class="tag-remove" onclick="removeSource(${i})">×</button></span>`
-  ).join('');
-}
-
-function addRegion() {
-  const v = document.getElementById('region-input').value.trim();
-  if (v && !cfgRegions.includes(v)) { cfgRegions.push(v); renderTags(); }
-  document.getElementById('region-input').value = '';
-}
-
-function removeRegion(i) { cfgRegions.splice(i, 1); renderTags(); }
-
-function addSource() {
-  let v = document.getElementById('source-input').value.trim();
-  if (v && !cfgSources.includes(v)) { cfgSources.push(v); renderTags(); }
-  document.getElementById('source-input').value = '';
-}
-
-function removeSource(i) { cfgSources.splice(i, 1); renderTags(); }
-
-function exportConfig() {
-  saveConfig();
-  const data = JSON.stringify({ regions: cfgRegions, sources: cfgSources }, null, 2);
-  const blob = new Blob([data], { type: 'application/json' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'search-config.json';
-  a.click();
-  URL.revokeObjectURL(a.href);
-  closeConfigModal();
-}
-
-loadConfig();
 </script>
 </body>
 </html>
