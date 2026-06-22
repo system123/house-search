@@ -517,9 +517,7 @@
 </main>
 
 <script>
-// ── DATA ──────────────────────────────────────────────────────────────────────
-// ── DATA loaded via fetch (see init() below) ─────────────────────────────
-}
+// ── DATA fetched from GitHub raw (see init() below) ──────────────────────────
 
 function updateMeta() {
   document.getElementById('updated-meta').textContent = 'Last updated: ' + new Date().toLocaleDateString('en-ZA', { day: 'numeric', month: 'short', year: 'numeric' });
@@ -543,7 +541,7 @@ function init(csvText) {
   render();
 }
 
-const CSV_URL = 'https://raw.githubusercontent.com/system123/house-search/main/listings.csv';
+const CSV_URL = 'https://raw.githubusercontent.com/system123/house-search/refs/heads/main/listings.csv';
 
 fetch(CSV_URL + '?v=' + Date.now())
   .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
@@ -561,7 +559,7 @@ fetch(CSV_URL + '?v=' + Date.now())
 function openConfigModal() {
   document.getElementById('config-modal').classList.add('open');
   switchTab('regions');
-  fetch('https://raw.githubusercontent.com/system123/house-search/main/search-config.json?_=' + Date.now())
+  fetch('https://raw.githubusercontent.com/system123/house-search/refs/heads/main/search-config.json?_=' + Date.now())
     .then(r => r.json())
     .then(cfg => {
       document.getElementById('regions-list').innerHTML = (cfg.regions || [])
