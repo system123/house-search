@@ -517,7 +517,189 @@
 </main>
 
 <script>
-// ── DATA fetched from GitHub raw (see init() below) ──────────────────────────
+const CSV_URL = 'https://raw.githubusercontent.com/system123/house-search/refs/heads/main/listings.csv';
+const CFG_URL = 'https://raw.githubusercontent.com/system123/house-search/refs/heads/main/search-config.json';
+
+// ── PARSE CSV ─────────────────────────────────────────────────────────────────
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  const headers = lines[0].split(',');
+  return lines.slice(1).filter(l => l.trim()).map(line => {
+    const cols = [];
+    let cur = '', inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      if (line[i] === '"') { inQ = !inQ; continue; }
+      if (line[i] === ',' && !inQ) { cols.push(cur); cur = ''; continue; }
+      cur += line[i];
+    }
+    cols.push(cur);
+    const obj = {};
+    headers.forEach((h, i) => obj[h.trim()] = (cols[i] || '').trim());
+    return obj;
+  });
+}
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let listings = [];
+
+function saveOverrides() {
+  const overrides = {};
+  listings.forEach(l => {
+    overrides[l.id] = { status: l.status, notes: l.notes, listing_status: l.listing_status };
+  });
+  localStorage.setItem('houseSearchOverrides', JSON.stringify(overrides));
+}
+
+// ── FORMAT ────────────────────────────────────────────────────────────────────
+function formatPrice(p) {
+  const n = parseInt(p);
+  if (!n) return 'POA';
+  return 'R ' + (n / 1e6).toFixed(2).replace(/\.?0+$/, '') + 'M';
+}
+
+function statusLabel(s) {
+  const m = { new: 'Active', under_offer: 'Under Offer', sold: 'Sold', unknown: 'Unknown' };
+  return m[s] || s;
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function render() {
+  const grid = document.getElementById('listings-grid');
+  const empty = document.getElementById('empty-state');
+  const filterArea = document.getElementById('filter-area').value;
+  const filterStatus = document.getElementById('filter-status').value;
+  const filterPrice = document.getElementById('filter-price').value;
+  const filterGarage = document.getElementById('filter-garage').value;
+  const filterFlatlet = document.getElementById('filter-flatlet').value;
+  const filterListingStatus = document.getElementById('filter-listing-status').value;
+  const showSold = document.getElementById('show-sold').checked;
+  const showRejected = document.getElementById('show-rejected').checked;
+
+  let visible = listings.filter(l => {
+    if (!showSold && l.listing_status === 'sold') return false;
+    if (!showRejected && l.status === 'rejected') return false;
+    if (filterArea && l.area !== filterArea) return false;
+    if (filterStatus && l.status !== filterStatus) return false;
+    if (filterListingStatus && l.listing_status !== filterListingStatus) return false;
+    if (filterPrice && parseInt(l.price) > parseInt(filterPrice)) return false;
+    if (filterGarage && l.garage !== filterGarage) return false;
+    if (filterFlatlet && l.flatlet !== filterFlatlet) return false;
+    return true;
+  });
+
+  visible.sort((a, b) => {
+    const scoreDiff = parseInt(b.score || 0) - parseInt(a.score || 0);
+    if (scoreDiff !== 0) return scoreDiff;
+    const statusOrder = { new: 0, under_offer: 1, unknown: 2, sold: 3 };
+    return (statusOrder[a.listing_status] || 2) - (statusOrder[b.listing_status] || 2);
+  });
+
+  if (visible.length === 0) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+  } else {
+    empty.style.display = 'none';
+    grid.innerHTML = visible.map(l => cardHTML(l)).join('');
+  }
+  updateStats();
+  updateAreaFilter();
+  updateMeta();
+}
+
+function cardHTML(l) {
+  const statusClass = { new: 'status-new', under_offer: 'status-under_offer', sold: 'status-sold' }[l.listing_status] || '';
+  const scoreWidth = (parseInt(l.score || 0) / 10 * 100) + '%';
+  const addr = (l.address && l.address !== 'unknown') ? l.address : '';
+  const agentInfo = (l.agent_name && l.agent_name !== 'unknown')
+    ? '<div class="agent-block"><strong>' + l.agent_name + '</strong>' +
+      (l.agent_phone ? ' · ' + l.agent_phone : '') +
+      (l.agent_email ? ' · <a href="mailto:' + l.agent_email + '" style="color:var(--accent)">' + l.agent_email + '</a>' : '') +
+      '</div>'
+    : '';
+  const userStatusOptions = ['unseen','seen','interested','rejected']
+    .map(s => '<option value="' + s + '"' + (l.status === s ? ' selected' : '') + '>' + s.charAt(0).toUpperCase() + s.slice(1) + '</option>').join('');
+  const listingStatusOptions = [['new','Active'],['under_offer','Under Offer'],['sold','Sold'],['unknown','Unknown']]
+    .map(pair => '<option value="' + pair[0] + '"' + (l.listing_status === pair[0] ? ' selected' : '') + '>' + pair[1] + '</option>').join('');
+  const notesVal = (l.notes || '').replace(/"/g, '&quot;');
+  const notesDisplay = l.notes
+    ? '<div class="card-notes" style="' + (l.status==='interested'?'color:#86efac':l.status==='rejected'?'color:#fca5a5':'') + '">' + l.notes + '</div>'
+    : '';
+  const lsColor = l.listing_status==='sold' ? 'var(--red)' : l.listing_status==='under_offer' ? 'var(--amber)' : 'var(--green)';
+
+  return '<div class="card' + (l.listing_status === 'sold' ? ' sold' : '') + '" id="card-' + l.id + '">' +
+    '<div class="card-header">' +
+      '<div>' +
+        '<div class="card-area">' + l.area + '</div>' +
+        (addr ? '<div class="card-address">' + addr + '</div>' : '') +
+      '</div>' +
+      '<div class="card-price">' + formatPrice(l.price) + '</div>' +
+    '</div>' +
+    '<div class="card-badges">' +
+      '<span class="badge ' + statusClass + '">' + statusLabel(l.listing_status) + '</span>' +
+      '<span class="badge">' + l.bedrooms + ' bed</span>' +
+      (l.bathrooms && l.bathrooms !== 'unknown' ? '<span class="badge">' + l.bathrooms + ' bath</span>' : '') +
+      '<span class="badge">Garage: ' + (l.garage==='yes'?'✓':l.garage==='no'?'✗':'?') + '</span>' +
+      '<span class="badge">Flatlet: ' + (l.flatlet==='yes'?'✓':l.flatlet==='no'?'✗':'?') + '</span>' +
+      (l.garden === 'yes' ? '<span class="badge yes">Garden ✓</span>' : '') +
+    '</div>' +
+    notesDisplay +
+    agentInfo +
+    '<div class="card-score">' +
+      '<span class="score-label">Score</span>' +
+      '<div class="score-bar"><div class="score-fill" style="width:' + scoreWidth + '"></div></div>' +
+      '<span class="score-num">' + (l.score || '—') + '</span>' +
+    '</div>' +
+    '<div class="notes-area" id="notes-area-' + l.id + '">' +
+      '<textarea class="notes-input" id="notes-input-' + l.id + '" placeholder="Add notes…">' + notesVal + '</textarea>' +
+      '<div class="notes-row">' +
+        '<button class="save-btn" onclick="saveNotes(\'' + l.id + '\')">Save</button>' +
+        '<button class="notes-toggle" onclick="toggleNotes(\'' + l.id + '\')">Cancel</button>' +
+      '</div>' +
+    '</div>' +
+    '<div class="card-actions">' +
+      '<select class="status-select" title="My status" onchange="updateStatus(\'' + l.id + '\', this.value)">' + userStatusOptions + '</select>' +
+      '<select class="status-select" title="Listing status (override)" onchange="updateListingStatus(\'' + l.id + '\', this.value)" style="flex:0;min-width:110px;border-color:' + lsColor + '">' + listingStatusOptions + '</select>' +
+      '<button class="notes-toggle" onclick="toggleNotes(\'' + l.id + '\')">📝</button>' +
+      '<a class="view-btn" href="' + l.url + '" target="_blank">View →</a>' +
+    '</div>' +
+  '</div>';
+}
+
+// ── INTERACTIONS ──────────────────────────────────────────────────────────────
+function updateStatus(id, val) {
+  const l = listings.find(x => x.id === id);
+  if (l) { l.status = val; saveOverrides(); render(); }
+}
+function updateListingStatus(id, val) {
+  const l = listings.find(x => x.id === id);
+  if (l) { l.listing_status = val; saveOverrides(); render(); }
+}
+function toggleNotes(id) {
+  const area = document.getElementById('notes-area-' + id);
+  if (area) area.classList.toggle('open');
+}
+function saveNotes(id) {
+  const inp = document.getElementById('notes-input-' + id);
+  const l = listings.find(x => x.id === id);
+  if (l && inp) { l.notes = inp.value; saveOverrides(); toggleNotes(id); render(); }
+}
+function updateAreaFilter() {
+  const sel = document.getElementById('filter-area');
+  const current = sel.value;
+  const areas = [...new Set(listings.map(l => l.area))].sort();
+  sel.innerHTML = '<option value="">All areas</option>' +
+    areas.map(a => '<option value="' + a + '"' + (a === current ? ' selected' : '') + '>' + a + '</option>').join('');
+}
+function updateStats() {
+  const bar = document.getElementById('stats-bar');
+  const counts = {};
+  listings.forEach(l => { counts[l.listing_status] = (counts[l.listing_status] || 0) + 1; });
+  bar.innerHTML =
+    '<div class="stat"><div class="stat-dot green"></div> ' + (counts.new || 0) + ' active</div>' +
+    '<div class="stat"><div class="stat-dot amber"></div> ' + (counts.under_offer || 0) + ' under offer</div>' +
+    '<div class="stat"><div class="stat-dot red"></div> ' + (counts.sold || 0) + ' sold</div>' +
+    '<div class="stat">Total: ' + listings.length + '</div>';
+}
 
 function updateMeta() {
   document.getElementById('updated-meta').textContent = 'Last updated: ' + new Date().toLocaleDateString('en-ZA', { day: 'numeric', month: 'short', year: 'numeric' });
@@ -541,8 +723,6 @@ function init(csvText) {
   render();
 }
 
-const CSV_URL = 'https://raw.githubusercontent.com/system123/house-search/refs/heads/main/listings.csv';
-
 fetch(CSV_URL + '?v=' + Date.now())
   .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
   .then(init)
@@ -559,7 +739,7 @@ fetch(CSV_URL + '?v=' + Date.now())
 function openConfigModal() {
   document.getElementById('config-modal').classList.add('open');
   switchTab('regions');
-  fetch('https://raw.githubusercontent.com/system123/house-search/refs/heads/main/search-config.json?_=' + Date.now())
+  fetch(CFG_URL + '?_=' + Date.now())
     .then(r => r.json())
     .then(cfg => {
       document.getElementById('regions-list').innerHTML = (cfg.regions || [])
