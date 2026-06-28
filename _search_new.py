@@ -293,6 +293,40 @@ def make_card_scraper(source_name: str, origin: str, agent_name: str):
     return scraper
 
 
+# ---------- MyProperty.co.za (Playwright + Stealth) ----------
+
+def _scrape_myproperty_wrapper(session, cfg, regions):
+    """Adapter so the Playwright-based MyProperty scraper plugs into the
+    main pipeline alongside the requests-based card scrapers."""
+    try:
+        from _scrape_myproperty import scrape as mp_scrape, Candidate as MpCand
+    except ImportError as exc:
+        out = SourceOutcome(
+            source="myproperty.co.za", outcome="FAILED",
+            error=f"_scrape_myproperty import failed: {exc}",
+        )
+        return [], out
+    mp_cands, mp_out = mp_scrape(cfg, regions)
+    # Translate MpCand -> Candidate (same shape, no actual conversion needed)
+    cands: list[Candidate] = []
+    for c in mp_cands:
+        cands.append(Candidate(
+            url=c.url, address=c.address, area=c.area, price=c.price,
+            bedrooms=c.bedrooms, bathrooms=c.bathrooms,
+            listing_id=c.listing_id, listing_status=c.listing_status,
+            agent_name=c.agent_name, notes=c.notes, source_domain=c.source_domain,
+        ))
+    out = SourceOutcome(
+        source=mp_out.source, outcome=mp_out.outcome,
+        new_listings=len(cands), pages_searched=mp_out.pages_searched,
+        error=mp_out.error,
+        listings_seen_total=mp_out.listings_seen_total,
+        listings_skipped_sold=mp_out.listings_skipped_sold,
+        listings_skipped_filter=mp_out.listings_skipped_filter,
+    )
+    return cands, out
+
+
 # ---------- Sites that need manual saved-search URLs ----------
 
 def scrape_manual_saved_search(source_url: str, session) -> SourceOutcome:
@@ -396,6 +430,7 @@ def main() -> int:
         "headsproperty.co.za": make_card_scraper(
             "headsproperty.co.za", "https://www.headsproperty.co.za", "Heads Property",
         ),
+        "myproperty.co.za": _scrape_myproperty_wrapper,
     }
 
     outcomes: list[SourceOutcome] = []

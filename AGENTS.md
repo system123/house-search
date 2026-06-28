@@ -51,6 +51,12 @@ Edit `listings.csv` directly on `main`. Recommended workflow:
 
 The cron currently extracts new listings from these sites:
 
+- **MyProperty** (`www.myproperty.co.za`) — aggregates listings from
+  several agents. Uses Playwright + `playwright-stealth` to bypass the
+  Vercel bot-protection ("Security Checkpoint") that returns HTTP 429 to
+  plain HTTP clients. Server-rendered cards (`data-mp-result-card`)
+  contain price, beds/baths, suburb, address slug, and status banner
+  (On Show / Under Offer / Sold). Paginated up to 5 pages per region.
 - Seeff (`www.seeff.com`)
 - Quay1 (`www.quay1.co.za`)
 - Greeff (`www.greeff.co.za`)
@@ -58,8 +64,9 @@ The cron currently extracts new listings from these sites:
 - Heads Property (`www.headsproperty.co.za`)
 - Jawitz (`www.jawitz.co.za`)
 
-These share a server-rendered `property-card-sm` / `listing-card` markup
-that the cron parses for price, bedrooms, and listing status.
+The five white-label sites share a server-rendered `property-card-sm` /
+`listing-card` markup that the cron parses for price, bedrooms, and
+listing status via plain HTTP.
 
 These sites are listed in `search-config.json` but cannot be scraped from
 static HTML alone:
