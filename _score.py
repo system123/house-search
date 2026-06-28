@@ -126,6 +126,12 @@ def score_row(row: dict[str, str]) -> tuple[int, str]:
     return s, reason
 
 
+USER_STATUSES = {
+    "interested", "rejected", "viewed", "contacted", "archived",
+    "shortlist", "shortlisted", "favourite", "favorite", "offer",
+}
+
+
 def main() -> int:
     with CSV_PATH.open() as f:
         reader = csv.DictReader(f)
@@ -136,9 +142,15 @@ def main() -> int:
         fieldnames.append("score_reason")
 
     scored = 0
+    skipped_user_touched = 0
     for r in rows:
         r.setdefault("score_reason", "")
-        if (r.get("status") or "").strip().lower() != "unseen":
+        status = (r.get("status") or "").strip().lower()
+        # Only score "unseen" rows; never re-score user-touched ones.
+        if status in USER_STATUSES:
+            skipped_user_touched += 1
+            continue
+        if status != "unseen":
             continue
         score, reason = score_row(r)
         r["score"] = str(score)
@@ -150,7 +162,7 @@ def main() -> int:
         writer.writeheader()
         writer.writerows(rows)
 
-    print(f"Scored {scored} unseen rows")
+    print(f"Scored {scored} unseen rows; skipped {skipped_user_touched} user-touched")
     return 0
 
 
