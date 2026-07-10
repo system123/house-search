@@ -1,0 +1,188 @@
+{
+  "date": "2026-07-10",
+  "sources_attempted": 17,
+  "outcomes": [
+    {
+      "source": "property24.com",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 503"
+    },
+    {
+      "source": "privateproperty.co.za",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 404"
+    },
+    {
+      "source": "pamgolding.co.za",
+      "outcome": "NO_RESULTS",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": ""
+    },
+    {
+      "source": "seeff.com",
+      "outcome": "PARTIAL",
+      "pages_searched": 30,
+      "harvested": 2,
+      "new_listings": 2,
+      "error": "TimeoutError: The read operation timed out"
+    },
+    {
+      "source": "sothebysrealty.co.za",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 404"
+    },
+    {
+      "source": "chaseveritt.co.za",
+      "outcome": "NO_RESULTS",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": ""
+    },
+    {
+      "source": "remax.co.za",
+      "outcome": "NO_RESULTS",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": ""
+    },
+    {
+      "source": "engelvoelkers.com",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 403"
+    },
+    {
+      "source": "rawson.co.za",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 404"
+    },
+    {
+      "source": "jawitz.co.za",
+      "outcome": "PARTIAL",
+      "pages_searched": 30,
+      "harvested": 3,
+      "new_listings": 3,
+      "error": "TimeoutError: The read operation timed out"
+    },
+    {
+      "source": "greeff.co.za",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "TimeoutError: The read operation timed out"
+    },
+    {
+      "source": "dgproperties.co.za",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "TimeoutError: The read operation timed out"
+    },
+    {
+      "source": "quay1.co.za",
+      "outcome": "PARTIAL",
+      "pages_searched": 30,
+      "harvested": 4,
+      "new_listings": 4,
+      "error": "TimeoutError: The read operation timed out"
+    },
+    {
+      "source": "thestorey.co.za",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "TimeoutError: The read operation timed out"
+    },
+    {
+      "source": "surdoprop.co.za",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 404"
+    },
+    {
+      "source": "cambierproperties.com",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 503"
+    },
+    {
+      "source": "headsproperty.co.za",
+      "outcome": "PARTIAL",
+      "pages_searched": 30,
+      "harvested": 2,
+      "new_listings": 2,
+      "error": "TimeoutError: The read operation timed out"
+    }
+  ],
+  "new_candidate_urls": [
+    [
+      "seeff.com",
+      "https://www.seeff.com/results/residential/for-sale/cape-town/mowbray/apartment/3086190/3-kingsley-1-strubens-road"
+    ],
+    [
+      "seeff.com",
+      "https://www.seeff.com/results/residential/for-sale/cape-town/wynberg/apartment/3340392"
+    ],
+    [
+      "jawitz.co.za",
+      "https://www.jawitz.co.za/results/residential/for-sale/cape-town/de-waterkant/apartment/3162101"
+    ],
+    [
+      "jawitz.co.za",
+      "https://www.jawitz.co.za/results/residential/for-sale/cape-town/kenilworth-upper/apartment/3168497"
+    ],
+    [
+      "jawitz.co.za",
+      "https://www.jawitz.co.za/results/residential/for-sale/cape-town/muizenberg/apartment/3142249"
+    ],
+    [
+      "quay1.co.za",
+      "https://www.quay1.co.za/results/residential/for-sale/cape-town/bergvliet/freestanding/3178216"
+    ],
+    [
+      "quay1.co.za",
+      "https://www.quay1.co.za/results/residential/for-sale/cape-town/bergvliet/freestanding/3178216/&text=Quay"
+    ],
+    [
+      "quay1.co.za",
+      "https://www.quay1.co.za/results/residential/for-sale/cape-town/mowbray/freestanding/3123622"
+    ],
+    [
+      "quay1.co.za",
+      "https://www.quay1.co.za/results/residential/for-sale/cape-town/mowbray/freestanding/3123622/&text=Quay"
+    ],
+    [
+      "headsproperty.co.za",
+      "https://www.headsproperty.co.za/results/residential/for-sale/cape-town/wynberg/house/2832143"
+    ],
+    [
+      "headsproperty.co.za",
+      "https://www.headsproperty.co.za/results/residential/for-sale/cape-town/wynberg/house/2832143/&text=Heads"
+    ]
+  ]
+}
