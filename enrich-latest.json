@@ -1,0 +1,14 @@
+{
+  "summary": {
+    "candidates_seen": 13,
+    "added": 1,
+    "url_updates": 0,
+    "skipped_dup": 0,
+    "skipped_criteria": 8,
+    "fetch_fail": 4
+  },
+  "added_ids": [
+    "70"
+  ],
+  "url_updates": []
+}
