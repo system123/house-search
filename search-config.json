@@ -1,4 +1,9 @@
 {
+  "budget": {
+    "min_zar": 3000000,
+    "max_zar": 7000000
+  },
+  "bedrooms_min": 2,
   "regions": [
     "Wynberg",
     "Wynberg Upper",
@@ -34,13 +39,20 @@
   "sources": [
     "https://www.property24.com",
     "https://www.privateproperty.co.za",
-    "https://www.gumtree.co.za",
     "https://www.pamgolding.co.za",
     "https://www.seeff.com",
     "https://www.sothebysrealty.co.za",
     "https://www.chaseveritt.co.za",
     "https://www.remax.co.za",
     "https://www.engelvoelkers.com/south-africa",
-    "https://rawson.co.za"
+    "https://rawson.co.za",
+    "https://www.jawitz.co.za",
+    "https://www.greeff.co.za",
+    "https://www.dgproperties.co.za",
+    "https://www.quay1.co.za",
+    "https://www.thestorey.co.za",
+    "https://surdoprop.co.za",
+    "https://www.cambierproperties.com",
+    "https://www.headsproperty.co.za"
   ]
 }
