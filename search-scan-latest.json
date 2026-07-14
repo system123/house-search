@@ -1,0 +1,184 @@
+{
+  "date": "2026-07-14",
+  "sources_attempted": 17,
+  "outcomes": [
+    {
+      "source": "property24.com",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 503"
+    },
+    {
+      "source": "privateproperty.co.za",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 404"
+    },
+    {
+      "source": "pamgolding.co.za",
+      "outcome": "NO_RESULTS",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": ""
+    },
+    {
+      "source": "seeff.com",
+      "outcome": "NO_RESULTS",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": ""
+    },
+    {
+      "source": "sothebysrealty.co.za",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 404"
+    },
+    {
+      "source": "chaseveritt.co.za",
+      "outcome": "NO_RESULTS",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": ""
+    },
+    {
+      "source": "remax.co.za",
+      "outcome": "NO_RESULTS",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": ""
+    },
+    {
+      "source": "engelvoelkers.com",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 403"
+    },
+    {
+      "source": "rawson.co.za",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 404"
+    },
+    {
+      "source": "jawitz.co.za",
+      "outcome": "SUCCESS",
+      "pages_searched": 30,
+      "harvested": 2,
+      "new_listings": 2,
+      "error": ""
+    },
+    {
+      "source": "greeff.co.za",
+      "outcome": "SUCCESS",
+      "pages_searched": 30,
+      "harvested": 2,
+      "new_listings": 2,
+      "error": ""
+    },
+    {
+      "source": "dgproperties.co.za",
+      "outcome": "NO_RESULTS",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": ""
+    },
+    {
+      "source": "quay1.co.za",
+      "outcome": "SUCCESS",
+      "pages_searched": 30,
+      "harvested": 4,
+      "new_listings": 4,
+      "error": ""
+    },
+    {
+      "source": "thestorey.co.za",
+      "outcome": "SUCCESS",
+      "pages_searched": 30,
+      "harvested": 2,
+      "new_listings": 2,
+      "error": ""
+    },
+    {
+      "source": "surdoprop.co.za",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 404"
+    },
+    {
+      "source": "cambierproperties.com",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 503"
+    },
+    {
+      "source": "headsproperty.co.za",
+      "outcome": "NO_RESULTS",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": ""
+    }
+  ],
+  "new_candidate_urls": [
+    [
+      "jawitz.co.za",
+      "https://www.jawitz.co.za/results/residential/for-sale/cape-town/kenilworth-upper/apartment/3168497"
+    ],
+    [
+      "jawitz.co.za",
+      "https://www.jawitz.co.za/results/residential/for-sale/cape-town/oranjezicht/house/3327503"
+    ],
+    [
+      "greeff.co.za",
+      "https://www.greeff.co.za/results/residential/for-sale/cape-town/bishopscourt/freestanding/2368471/2-cannery-row"
+    ],
+    [
+      "greeff.co.za",
+      "https://www.greeff.co.za/results/residential/for-sale/cape-town/tokai/house/3134121/37-dalmore-road"
+    ],
+    [
+      "quay1.co.za",
+      "https://www.quay1.co.za/results/residential/for-sale/cape-town/constantia/townhouse/3320238"
+    ],
+    [
+      "quay1.co.za",
+      "https://www.quay1.co.za/results/residential/for-sale/cape-town/constantia/townhouse/3320238/&text=Quay"
+    ],
+    [
+      "quay1.co.za",
+      "https://www.quay1.co.za/results/residential/for-sale/cape-town/mowbray/freestanding/3123622"
+    ],
+    [
+      "quay1.co.za",
+      "https://www.quay1.co.za/results/residential/for-sale/cape-town/mowbray/freestanding/3123622/&text=Quay"
+    ],
+    [
+      "thestorey.co.za",
+      "https://www.thestorey.co.za/results/residential/for-sale/cape-town/diep-river/apartment/3293478"
+    ],
+    [
+      "thestorey.co.za",
+      "https://www.thestorey.co.za/results/residential/for-sale/cape-town/plumstead/apartment/3287849/303-syringa-square-4-wembley-avenue"
+    ]
+  ]
+}
