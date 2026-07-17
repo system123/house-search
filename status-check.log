@@ -1,0 +1,19 @@
+# status_check run 2026-07-17
+#2 REMOVED (HTTP 404) https://www.property24.com/for-sale/rondebosch/cape-town/western-cape/8682/115497230
+#3 REMOVED (HTTP 404) https://www.property24.com/for-sale/wynberg-upper/cape-town/western-cape/10102/116765856
+#4 REMOVED (HTTP 404) https://www.property24.com/for-sale/pinelands/cape-town/western-cape/8017/116495854
+#34 REMOVED (HTTP 404) https://www.property24.com/for-sale/pinelands/cape-town/western-cape/8017/116739882
+#35 REMOVED (HTTP 404) https://www.property24.com/for-sale/pinelands/cape-town/western-cape/8017/115433135
+#36 UNREACHABLE HTTP 503 (Cloudflare/WAF likely) https://www.property24.com/for-sale/rondebosch/cape-town/western-cape/8682/115582263
+#37 REMOVED (HTTP 404) https://www.property24.com/for-sale/pinelands/cape-town/western-cape/8017/116921019
+#39 UNREACHABLE HTTP 503 (Cloudflare/WAF likely) https://www.property24.com/for-sale/pinelands/cape-town/western-cape/8017/116810036
+#44 UNREACHABLE HTTP 503 (Cloudflare/WAF likely) https://www.property24.com/for-sale/pinelands/cape-town/western-cape/8017/115102764
+#46 UNREACHABLE HTTP 503 (Cloudflare/WAF likely) https://www.property24.com/for-sale/pinelands/cape-town/western-cape/8017/115921455
+#48 REMOVED (HTTP 404) https://www.pamgolding.co.za/property-details/3-bedroom-house-for-sale-pinelands-cape-town/kw1714703
+#49 UNREACHABLE HTTP 503 (Cloudflare/WAF likely) https://www.property24.com/for-sale/pinelands/cape-town/western-cape/8017/116733894
+#52 UNREACHABLE HTTP 503 (Cloudflare/WAF likely) https://www.property24.com/for-sale/rondebosch/cape-town/western-cape/8682
+#55 UNREACHABLE HTTP 503 (Cloudflare/WAF likely) https://www.property24.com/for-sale/rondebosch/cape-town/western-cape/8682/117047788
+#56 UNREACHABLE HTTP 503 (Cloudflare/WAF likely) https://www.property24.com/for-sale/bergvliet/cape-town/western-cape/10189/116285881
+#65 UNREACHABLE HTTP 503 (Cloudflare/WAF likely) https://www.property24.com/for-sale/pinelands/cape-town/western-cape/8017/115348035
+#66 UNREACHABLE HTTP 503 (Cloudflare/WAF likely) https://www.property24.com/for-sale/meadowridge/cape-town/western-cape/10052/115659659
+#67 UNREACHABLE HTTP 503 (Cloudflare/WAF likely) https://www.property24.com/for-sale/muizenberg/cape-town/western-cape/9025/116148297
