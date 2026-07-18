@@ -1,0 +1,48 @@
+Run date: 2026-07-18
+
+Status refresh:
+  - 55 listings checked
+  - 20 statuses changed (13× new->removed, 7× under_offer->removed)
+  - 1 sites unreachable during status check: www.property24.com
+
+New listings:
+  - 0 new listings added
+  - Sources with issues:
+      * property24.com: FAILED — http 503
+      * privateproperty.co.za: FAILED — no responses
+      * seeff.com: FAILED — http 500
+      * sothebysrealty.co.za: FAILED — no responses
+      * chaseveritt.co.za: FAILED — http 500
+      * engelvoelkers.com: FAILED — http 403
+      * rawson.co.za: FAILED — no responses
+      * jawitz.co.za: FAILED — http 500
+      * greeff.co.za: FAILED — http 500
+      * dgproperties.co.za: FAILED — http 500
+      * quay1.co.za: FAILED — http 500
+      * thestorey.co.za: FAILED — no responses
+      * surdoprop.co.za: FAILED — connection error
+      * cambierproperties.com: FAILED — http 503
+      * headsproperty.co.za: FAILED — http 500
+  - Sources with no results: remax.co.za
+
+Top 5 new/unseen listings (by score):
+  1. [Score: 10/10] unknown — R5250000, 4bed, Pinelands
+     URL: https://www.privateproperty.co.za/for-sale/western-cape/cape-town/southern-suburbs/pinelands/T5470355
+     Reason: area+ (pinelands), garden, flatlet, garage, 4bed, under offer
+  2. [Score: 10/10] unknown — R4750000, 3bed, Pinelands
+     URL: https://www.property24.com/for-sale/pinelands/cape-town/western-cape/8017/115921455
+     Reason: area+ (pinelands), garden, flatlet, garage
+  3. [Score: 10/10] 25 Leeuenhof Road — R4300000, 3bed, Pinelands
+     URL: https://www.property24.com/for-sale/pinelands/cape-town/western-cape/8017/116733894
+     Reason: area+ (pinelands), garden, flatlet, good value
+  4. [Score: 9/10] 29 Parkchester Avenue — R4500000, 4bed, Pinelands
+     URL: https://www.property24.com/for-sale/pinelands/cape-town/western-cape/8017/115433135
+     Reason: area+ (pinelands), garden, garage, 4bed, good value, under offer
+  5. [Score: 9/10] 29 North Way — R5395000, 3bed, Pinelands
+     URL: https://www.property24.com/for-sale/pinelands/cape-town/western-cape/8017/116810036
+     Reason: area+ (pinelands), garden, flatlet, garage, under offer
+
+Git push: SUCCESS
+
+⚠ Attention needed:
+  - none
