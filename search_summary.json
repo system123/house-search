@@ -1,0 +1,127 @@
+{
+  "sources_attempted": 17,
+  "source_outcomes": [
+    {
+      "source": "property24.com",
+      "outcome": "FAILED",
+      "new_listings": 0,
+      "pages_searched": 3,
+      "error": "http 503"
+    },
+    {
+      "source": "privateproperty.co.za",
+      "outcome": "FAILED",
+      "new_listings": 0,
+      "pages_searched": 3,
+      "error": "no responses"
+    },
+    {
+      "source": "pamgolding.co.za",
+      "outcome": "SUCCESS",
+      "new_listings": 0,
+      "pages_searched": 31,
+      "error": ""
+    },
+    {
+      "source": "seeff.com",
+      "outcome": "FAILED",
+      "new_listings": 0,
+      "pages_searched": 3,
+      "error": "http 500"
+    },
+    {
+      "source": "sothebysrealty.co.za",
+      "outcome": "FAILED",
+      "new_listings": 0,
+      "pages_searched": 3,
+      "error": "no responses"
+    },
+    {
+      "source": "chaseveritt.co.za",
+      "outcome": "FAILED",
+      "new_listings": 0,
+      "pages_searched": 3,
+      "error": "http 500"
+    },
+    {
+      "source": "remax.co.za",
+      "outcome": "NO_RESULTS",
+      "new_listings": 0,
+      "pages_searched": 30,
+      "error": ""
+    },
+    {
+      "source": "engelvoelkers.com",
+      "outcome": "FAILED",
+      "new_listings": 0,
+      "pages_searched": 3,
+      "error": "http 403"
+    },
+    {
+      "source": "rawson.co.za",
+      "outcome": "FAILED",
+      "new_listings": 0,
+      "pages_searched": 3,
+      "error": "no responses"
+    },
+    {
+      "source": "jawitz.co.za",
+      "outcome": "FAILED",
+      "new_listings": 0,
+      "pages_searched": 3,
+      "error": "http 500"
+    },
+    {
+      "source": "greeff.co.za",
+      "outcome": "FAILED",
+      "new_listings": 0,
+      "pages_searched": 3,
+      "error": "http 500"
+    },
+    {
+      "source": "dgproperties.co.za",
+      "outcome": "FAILED",
+      "new_listings": 0,
+      "pages_searched": 3,
+      "error": "http 500"
+    },
+    {
+      "source": "quay1.co.za",
+      "outcome": "FAILED",
+      "new_listings": 0,
+      "pages_searched": 3,
+      "error": "http 500"
+    },
+    {
+      "source": "thestorey.co.za",
+      "outcome": "FAILED",
+      "new_listings": 0,
+      "pages_searched": 3,
+      "error": "no responses"
+    },
+    {
+      "source": "surdoprop.co.za",
+      "outcome": "FAILED",
+      "new_listings": 0,
+      "pages_searched": 3,
+      "error": "connection error"
+    },
+    {
+      "source": "cambierproperties.com",
+      "outcome": "FAILED",
+      "new_listings": 0,
+      "pages_searched": 3,
+      "error": "http 503"
+    },
+    {
+      "source": "headsproperty.co.za",
+      "outcome": "FAILED",
+      "new_listings": 0,
+      "pages_searched": 3,
+      "error": "http 500"
+    }
+  ],
+  "new_listings_added": 0,
+  "duplicates_skipped": 0,
+  "duplicates_url_updated": 0
+}
