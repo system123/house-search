@@ -1,0 +1,11 @@
+{
+  "checked": 55,
+  "updated": 20,
+  "unreachable_domains": [
+    "www.property24.com"
+  ],
+  "updates_detail": [
+    "13\u00d7 new->removed",
+    "7\u00d7 under_offer->removed"
+  ]
+}
