@@ -1,0 +1,184 @@
+{
+  "date": "2026-07-22",
+  "sources_attempted": 17,
+  "outcomes": [
+    {
+      "source": "property24.com",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 503"
+    },
+    {
+      "source": "privateproperty.co.za",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 404"
+    },
+    {
+      "source": "pamgolding.co.za",
+      "outcome": "NO_RESULTS",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": ""
+    },
+    {
+      "source": "seeff.com",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 504"
+    },
+    {
+      "source": "sothebysrealty.co.za",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 404"
+    },
+    {
+      "source": "chaseveritt.co.za",
+      "outcome": "SUCCESS",
+      "pages_searched": 30,
+      "harvested": 2,
+      "new_listings": 2,
+      "error": ""
+    },
+    {
+      "source": "remax.co.za",
+      "outcome": "NO_RESULTS",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": ""
+    },
+    {
+      "source": "engelvoelkers.com",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 403"
+    },
+    {
+      "source": "rawson.co.za",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 404"
+    },
+    {
+      "source": "jawitz.co.za",
+      "outcome": "PARTIAL",
+      "pages_searched": 30,
+      "harvested": 1,
+      "new_listings": 1,
+      "error": "TimeoutError: The read operation timed out"
+    },
+    {
+      "source": "greeff.co.za",
+      "outcome": "NO_RESULTS",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": ""
+    },
+    {
+      "source": "dgproperties.co.za",
+      "outcome": "SUCCESS",
+      "pages_searched": 30,
+      "harvested": 2,
+      "new_listings": 2,
+      "error": ""
+    },
+    {
+      "source": "quay1.co.za",
+      "outcome": "PARTIAL",
+      "pages_searched": 30,
+      "harvested": 4,
+      "new_listings": 4,
+      "error": "TimeoutError: The read operation timed out"
+    },
+    {
+      "source": "thestorey.co.za",
+      "outcome": "SUCCESS",
+      "pages_searched": 30,
+      "harvested": 1,
+      "new_listings": 1,
+      "error": ""
+    },
+    {
+      "source": "surdoprop.co.za",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 404"
+    },
+    {
+      "source": "cambierproperties.com",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 503"
+    },
+    {
+      "source": "headsproperty.co.za",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "TimeoutError: The read operation timed out"
+    }
+  ],
+  "new_candidate_urls": [
+    [
+      "chaseveritt.co.za",
+      "https://www.chaseveritt.co.za/results/residential/for-sale/cape-town/claremont-upper/apartment/3103846"
+    ],
+    [
+      "chaseveritt.co.za",
+      "https://www.chaseveritt.co.za/results/residential/for-sale/cape-town/claremont-upper/apartment/3103846/&text=Chas"
+    ],
+    [
+      "jawitz.co.za",
+      "https://www.jawitz.co.za/results/residential/for-sale/cape-town/oranjezicht/house/3327503"
+    ],
+    [
+      "dgproperties.co.za",
+      "https://www.dgproperties.co.za/results/residential/for-sale/cape-town/wynberg/apartment/3370128"
+    ],
+    [
+      "dgproperties.co.za",
+      "https://www.dgproperties.co.za/results/residential/for-sale/cape-town/wynberg/apartment/3370128/&text=DG"
+    ],
+    [
+      "quay1.co.za",
+      "https://www.quay1.co.za/results/residential/for-sale/cape-town/constantia/townhouse/3320238"
+    ],
+    [
+      "quay1.co.za",
+      "https://www.quay1.co.za/results/residential/for-sale/cape-town/constantia/townhouse/3320238/&text=Quay"
+    ],
+    [
+      "quay1.co.za",
+      "https://www.quay1.co.za/results/residential/for-sale/cape-town/mowbray/freestanding/3123622"
+    ],
+    [
+      "quay1.co.za",
+      "https://www.quay1.co.za/results/residential/for-sale/cape-town/mowbray/freestanding/3123622/&text=Quay"
+    ],
+    [
+      "thestorey.co.za",
+      "https://www.thestorey.co.za/results/residential/for-sale/cape-town/observatory/apartment/3177552"
+    ]
+  ]
+}
