@@ -1,0 +1,188 @@
+{
+  "date": "2026-07-25",
+  "sources_attempted": 17,
+  "outcomes": [
+    {
+      "source": "property24.com",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 503"
+    },
+    {
+      "source": "privateproperty.co.za",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 404"
+    },
+    {
+      "source": "pamgolding.co.za",
+      "outcome": "NO_RESULTS",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": ""
+    },
+    {
+      "source": "seeff.com",
+      "outcome": "NO_RESULTS",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": ""
+    },
+    {
+      "source": "sothebysrealty.co.za",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 404"
+    },
+    {
+      "source": "chaseveritt.co.za",
+      "outcome": "NO_RESULTS",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": ""
+    },
+    {
+      "source": "remax.co.za",
+      "outcome": "NO_RESULTS",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": ""
+    },
+    {
+      "source": "engelvoelkers.com",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 403"
+    },
+    {
+      "source": "rawson.co.za",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 404"
+    },
+    {
+      "source": "jawitz.co.za",
+      "outcome": "PARTIAL",
+      "pages_searched": 30,
+      "harvested": 2,
+      "new_listings": 2,
+      "error": "TimeoutError: The read operation timed out"
+    },
+    {
+      "source": "greeff.co.za",
+      "outcome": "PARTIAL",
+      "pages_searched": 30,
+      "harvested": 3,
+      "new_listings": 3,
+      "error": "TimeoutError: The read operation timed out"
+    },
+    {
+      "source": "dgproperties.co.za",
+      "outcome": "PARTIAL",
+      "pages_searched": 30,
+      "harvested": 2,
+      "new_listings": 2,
+      "error": "TimeoutError: The read operation timed out"
+    },
+    {
+      "source": "quay1.co.za",
+      "outcome": "SUCCESS",
+      "pages_searched": 30,
+      "harvested": 1,
+      "new_listings": 1,
+      "error": ""
+    },
+    {
+      "source": "thestorey.co.za",
+      "outcome": "PARTIAL",
+      "pages_searched": 30,
+      "harvested": 1,
+      "new_listings": 1,
+      "error": "TimeoutError: The read operation timed out"
+    },
+    {
+      "source": "surdoprop.co.za",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 404"
+    },
+    {
+      "source": "cambierproperties.com",
+      "outcome": "FAILED",
+      "pages_searched": 30,
+      "harvested": 0,
+      "new_listings": 0,
+      "error": "HTTP 503"
+    },
+    {
+      "source": "headsproperty.co.za",
+      "outcome": "PARTIAL",
+      "pages_searched": 30,
+      "harvested": 2,
+      "new_listings": 2,
+      "error": "TimeoutError: The read operation timed out"
+    }
+  ],
+  "new_candidate_urls": [
+    [
+      "jawitz.co.za",
+      "https://www.jawitz.co.za/results/residential/for-sale/cape-town/kenilworth-upper/apartment/3168497"
+    ],
+    [
+      "jawitz.co.za",
+      "https://www.jawitz.co.za/results/residential/for-sale/cape-town/oranjezicht/house/3327503"
+    ],
+    [
+      "greeff.co.za",
+      "https://www.greeff.co.za/results/residential/for-sale/cape-town/kalk-bay/house/2504080/8-clairvaux-road"
+    ],
+    [
+      "greeff.co.za",
+      "https://www.greeff.co.za/results/residential/for-sale/cape-town/wynberg-upper/apartment/2986369"
+    ],
+    [
+      "greeff.co.za",
+      "https://www.greeff.co.za/results/residential/for-sale/cape-town/wynberg-upper/apartment/2986369/&text=Greeff"
+    ],
+    [
+      "dgproperties.co.za",
+      "https://www.dgproperties.co.za/results/residential/for-sale/cape-town/kenilworth-upper/apartment/2792599"
+    ],
+    [
+      "dgproperties.co.za",
+      "https://www.dgproperties.co.za/results/residential/for-sale/cape-town/kenilworth-upper/apartment/2792599/&text=DG"
+    ],
+    [
+      "quay1.co.za",
+      "https://www.quay1.co.za/results/residential/for-sale/cape-town/claremont-upper/apartment/3343399/502-crescent-road-4-crescent-road"
+    ],
+    [
+      "thestorey.co.za",
+      "https://www.thestorey.co.za/results/residential/for-sale/cape-town/observatory/apartment/3177552"
+    ],
+    [
+      "headsproperty.co.za",
+      "https://www.headsproperty.co.za/results/residential/for-sale/cape-town/wynberg/house/2832143"
+    ],
+    [
+      "headsproperty.co.za",
+      "https://www.headsproperty.co.za/results/residential/for-sale/cape-town/wynberg/house/2832143/&text=Heads"
+    ]
+  ]
+}
